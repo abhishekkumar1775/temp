@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block body %}
+
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url( {{url_for('static' , filename = 'assets/img/home-bg.jpg') }} )">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>code-blogs</h1>
+                            <span class="subheading">{{params['post.tag_line']}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+
+                    
+                    {% for post in posts %}
+                    <div class="alert alert-dark" role="alert">
+                        <h4 class="alert-heading">
+                            <a href="/post/{{post.slug}}">
+                                <h1 class="post-title">{{post.title}}</h2>
+                                <!-- <h3 class="post-subtitle">{{post.tagline}}</h3> -->
+                            </a>
+                        </h4>
+                        <div class="post-preview">
+                         
+                            {% set fname = 'assets/img/' + post.username+'.jpg' %}
+                            <h5 class="alert-heading">
+                                <a href="/about/{{post.username}}">
+                                    <div class="d-flex flex-row align-items-center">
+                                        <img
+                                          src="{{url_for('static',filename = fname )}}"
+                                          width="25"
+                                          height="25"
+                                        />
+                                        <div class="small mb-0 ms-2">
+                                            <b >{{post.username}}</b> 
+                                        </div>
+                                    </div>
+
+                                    
+                                </a>
+                            </h5>
+                            on {{post.date}}
+    
+                        </div>
+                        <hr>
+                        <a href="/post/{{post.slug}}">
+                            <h3 class="post-subtitle">{{post.tagline}}</h3>
+                        </a>
+                        <p>{{post.content[0:80]}}. . . . .</p>
+                        
+                         
+                        
+                    </div>
+
+
+                    
+                    {% endfor %}
+
+                    
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-between mb-4">
+                        {% if start_token != 0  %}
+                        <a class="btn btn-primary text-uppercase" href="/{{start_token-params['no_of_posts']}}">&larr; Newer Posts </a>
+                        {% endif %}
+                        {% if params['total_post'] > start_token + params['no_of_posts']%}
+                        <a class="btn btn-primary text-uppercase" href="/{{start_token+params['no_of_posts']}}">Older Posts &rarr;</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        {% endblock %}
